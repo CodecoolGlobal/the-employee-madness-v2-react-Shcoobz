@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 
-const EmployeeRoutes = require('./routes/employeeRoutes');
+const EmployeesRoutes = require('./routes/employeesRoutes');
 const EquipmentRoutes = require('./routes/equipmentRoutes');
 
 const { MONGO_URL, PORT = 8080 } = process.env;
@@ -15,7 +15,7 @@ if (!MONGO_URL) {
 const app = express();
 app.use(express.json());
 
-app.use('/api/employees', EmployeeRoutes);
+app.use('/api/employees', EmployeesRoutes);
 app.use('/api/equipment', EquipmentRoutes);
 
 const main = async () => {

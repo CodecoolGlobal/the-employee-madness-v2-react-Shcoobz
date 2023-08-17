@@ -55,6 +55,19 @@ router.get('/:id', async (req, res) => {
   return res.json(employee);
 });
 
+// GET :search with postman/browser at: http://localhost:8080/api/employees/search/robert
+router.get('/search/:search', async (req, res) => {
+  const searchValue = req.params.search;
+
+  let filter = {
+    name: { $regex: searchValue, $options: 'i' },
+  };
+
+  const employees = await EmployeeModel.find(filter);
+
+  return res.json(employees);
+});
+
 router.post('/', async (req, res, next) => {
   const employee = req.body;
 

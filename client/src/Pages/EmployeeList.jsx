@@ -1,10 +1,8 @@
-// TODO: make default sort field 'name'
-
 import { useEffect, useState } from 'react';
 import Loading from '../Components/Loading';
 import EmployeeTable from '../Components/EmployeeTable';
 
-const DEFAULT_SORT_FIELD = 'firstName';
+const DEFAULT_SORT_FIELD = 'name';
 const DEFAULT_SORT_ORDER = 'asc';
 
 const fetchEmployees = (position = '', level = '', sortField, sortOrder) => {
