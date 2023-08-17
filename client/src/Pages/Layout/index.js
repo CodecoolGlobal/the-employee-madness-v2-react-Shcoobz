@@ -1,3 +1,4 @@
-import Layout from "./Layout";
+import LayoutEmployee from './LayoutEmployee';
+import LayoutEquipment from './LayoutEquipment';
 
-export default Layout;
+export { LayoutEmployee, LayoutEquipment };

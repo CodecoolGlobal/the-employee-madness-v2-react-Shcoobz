@@ -1,0 +1,7 @@
+.EquipmentTable {
+  padding: 0.5rem;
+}
+
+.EquipmentTable th {
+  cursor: pointer;
+}

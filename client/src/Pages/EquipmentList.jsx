@@ -1,21 +1,21 @@
-// TODO: make default sort field 'name'
+// TODO: filtering needed?
 
 import { useEffect, useState } from 'react';
 import Loading from '../Components/Loading';
-import EmployeeTable from '../Components/EmployeeTable';
+import EquipmentTable from '../Components/EquipmentTable';
 
-const DEFAULT_SORT_FIELD = 'firstName';
+const DEFAULT_SORT_FIELD = 'name';
 const DEFAULT_SORT_ORDER = 'asc';
 
-const fetchEmployees = (position = '', level = '', sortField, sortOrder) => {
+const fetchEquipment = (name, type, sortField, sortOrder) => {
   const queryParams = [];
 
-  if (position) {
-    queryParams.push(`position=${position}`);
+  if (name) {
+    queryParams.push(`name=${name}`);
   }
 
-  if (level) {
-    queryParams.push(`level=${level}`);
+  if (type) {
+    queryParams.push(`type=${type}`);
   }
 
   queryParams.push(`sortField=${sortField}`);
@@ -23,73 +23,73 @@ const fetchEmployees = (position = '', level = '', sortField, sortOrder) => {
 
   const queryString = queryParams.length ? `?${queryParams.join('&')}` : '';
 
-  return fetch(`/api/employees${queryString}`).then((res) => res.json());
+  return fetch(`/api/equipment${queryString}`).then((res) => res.json());
 };
 
-const deleteEmployee = (id) => {
-  return fetch(`/api/employees/${id}`, { method: 'DELETE' }).then((res) =>
+const deleteEquipment = (id) => {
+  return fetch(`/api/equipment/${id}`, { method: 'DELETE' }).then((res) =>
     res.json()
   );
 };
 
-const EmployeeList = () => {
+const EquipmentList = () => {
   const [loading, setLoading] = useState(true);
-  const [employees, setEmployees] = useState(null);
-  const [positionFilter, setPositionFilter] = useState('');
-  const [levelFilter, setLevelFilter] = useState('');
+  const [equipment, setEquipment] = useState(null);
+  const [typeFilter, setTypeFilter] = useState('');
+  const [nameFilter, setNameFilter] = useState('');
   const [showFilters, setShowFilters] = useState(false);
 
   const [sortField, setSortField] = useState(DEFAULT_SORT_FIELD);
   const [sortOrder, setSortOrder] = useState(DEFAULT_SORT_ORDER);
 
   useEffect(() => {
-    fetchEmployees(positionFilter, levelFilter, sortField, sortOrder).then(
-      (employees) => {
+    fetchEquipment(nameFilter, typeFilter, sortField, sortOrder).then(
+      (equipment) => {
         setLoading(false);
-        setEmployees(employees);
+        setEquipment(equipment);
       }
     );
-  }, [positionFilter, levelFilter, sortField, sortOrder]);
+  }, [typeFilter, nameFilter, sortField, sortOrder]);
 
   if (loading) {
     return <Loading />;
   }
 
-  const positionInput = (
+  const NameInput = (
     <input
       type='text'
-      placeholder='Filter by Position'
-      value={positionFilter}
-      onChange={(e) => setPositionFilter(e.target.value)}
+      placeholder='Filter by Name'
+      value={nameFilter}
+      onChange={(e) => setNameFilter(e.target.value)}
       onKeyDown={(e) => {
         if (e.key === 'Enter') {
           e.preventDefault();
-          setPositionFilter('');
+          setNameFilter('');
         }
       }}
     />
   );
 
-  const levelInput = (
+  const typeInput = (
     <input
       type='text'
-      placeholder='Filter by Level'
-      value={levelFilter}
-      onChange={(e) => setLevelFilter(e.target.value)}
+      placeholder='Filter by Type'
+      value={typeFilter}
+      onChange={(e) => setTypeFilter(e.target.value)}
       onKeyDown={(e) => {
         if (e.key === 'Enter') {
           e.preventDefault();
-          setLevelFilter('');
+          setTypeFilter('');
         }
       }}
     />
   );
 
   const handleDelete = (id) => {
-    deleteEmployee(id);
+    deleteEquipment(id);
 
-    setEmployees((employees) => {
-      return employees.filter((employee) => employee._id !== id);
+    setEquipment((equipment) => {
+      return equipment.filter((equipment) => equipment._id !== id);
     });
   };
 
@@ -107,26 +107,23 @@ const EmployeeList = () => {
     setSortField(newSortField);
     setSortOrder(newSortOrder);
 
-    fetchEmployees(
-      positionFilter,
-      levelFilter,
-      newSortField,
-      newSortOrder
-    ).then((sortedEmployees) => {
-      setEmployees(sortedEmployees);
-    });
+    fetchEquipment(nameFilter, typeFilter, newSortField, newSortOrder).then(
+      (sortedEquipment) => {
+        setEquipment(sortedEquipment);
+      }
+    );
   };
 
   const resetSort = () => {
     setSortField(DEFAULT_SORT_FIELD);
     setSortOrder(DEFAULT_SORT_ORDER);
-    fetchEmployees(
-      positionFilter,
-      levelFilter,
+    fetchEquipment(
+      typeFilter,
+      nameFilter,
       DEFAULT_SORT_FIELD,
       DEFAULT_SORT_ORDER
-    ).then((sortedEmployees) => {
-      setEmployees(sortedEmployees);
+    ).then((sortedEquipment) => {
+      setEquipment(sortedEquipment);
     });
   };
 
@@ -137,11 +134,11 @@ const EmployeeList = () => {
         <button onClick={() => setShowFilters(!showFilters)}>
           {showFilters ? 'Hide Filters' : 'Show Filters'}
         </button>
-        {showFilters && positionInput}
-        {showFilters && levelInput}
+        {showFilters && NameInput}
+        {showFilters && typeInput}
       </div>
-      <EmployeeTable
-        employees={employees}
+      <EquipmentTable
+        equipment={equipment}
         onDelete={handleDelete}
         handleSort={handleSort}
         sortField={sortField}
@@ -151,4 +148,4 @@ const EmployeeList = () => {
   );
 };
 
-export default EmployeeList;
+export default EquipmentList;
