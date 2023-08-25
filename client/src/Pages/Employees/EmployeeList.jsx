@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import Loading from '../../Components/Loading';
-import EmployeeTable from '../../Components/EmployeeTable';
+import EmployeeTable from '../../Components/Employees/EmployeeTable';
+import deleteEmployee from '../../Utility/Employees/deleteEmployee';
 
 const fetchEmployees = (level, position, arrange) => {
   const employeeFilters = new URLSearchParams();
@@ -16,11 +17,11 @@ const fetchEmployees = (level, position, arrange) => {
   );
 };
 
-const deleteEmployee = (id) => {
-  return fetch(`/api/employees/${id}`, { method: 'DELETE' }).then((res) =>
-    res.json()
-  );
-};
+// const deleteEmployee = (id) => {
+//   return fetch(`/api/employees/${id}`, { method: 'DELETE' }).then((res) =>
+//     res.json()
+//   );
+// };
 
 const EmployeeList = () => {
   const [loading, setLoading] = useState(true);

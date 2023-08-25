@@ -33,6 +33,16 @@ router.get('/', async (req, res) => {
   return res.json(employees);
 });
 
+// http://localhost:8080/api/employees/search/robert
+router.get('/search/:search', async (req, res) => {
+  const employeeNameQuery = req.params.search.toString();
+  const employees = await EmployeeModel.find({
+    name: { $regex: employeeNameQuery, $options: 'i' },
+  });
+
+  return res.json(employees);
+});
+
 router.get('/:id', async (req, res) => {
   const employee = await EmployeeModel.findById(req.params.id);
   return res.json(employee);

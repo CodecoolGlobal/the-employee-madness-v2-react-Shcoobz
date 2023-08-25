@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import EmployeeForm from '../../Components/EmployeeForm';
+import EmployeeForm from '../../Components/Employees/EmployeeForm';
 import Loading from '../../Components/Loading';
 
 const updateEmployee = (employee) => {
