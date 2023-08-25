@@ -1,34 +1,19 @@
 import { Link } from 'react-router-dom';
 import './EquipmentTable.css';
 
-const EquipmentTable = ({
-  equipment,
-  onDelete,
-  handleSort,
-  sortField,
-  sortOrder,
-}) => (
+const EquipmentTable = ({ equipments, onDelete }) => (
   <div className='EquipmentTable'>
     <table>
       <thead>
         <tr>
-          <th onClick={() => handleSort('name')}>
-            Name
-            {sortField === 'name' && (sortOrder === 'asc' ? '▲' : '▼')}
-          </th>
-          <th onClick={() => handleSort('type')}>
-            Type
-            {sortField === 'type' && (sortOrder === 'asc' ? '▲' : '▼')}
-          </th>
-          <th onClick={() => handleSort('amount')}>
-            Amount
-            {sortField === 'amount' && (sortOrder === 'asc' ? '▲' : '▼')}
-          </th>
+          <th>Equipment Name</th>
+          <th>Type</th>
+          <th>Amount</th>
           <th />
         </tr>
       </thead>
       <tbody>
-        {equipment.map((equipment) => (
+        {equipments.map((equipment) => (
           <tr key={equipment._id}>
             <td>{equipment.name}</td>
             <td>{equipment.type}</td>

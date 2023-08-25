@@ -27,7 +27,7 @@ const EquipmentForm = ({ onSave, disabled, equipment, onCancel }) => {
   return (
     <form className='EquipmentForm' onSubmit={onSubmit}>
       <div className='control'>
-        <label htmlFor='name'>Name:</label>
+        <label htmlFor='name'>Equipment Name:</label>
         <input
           value={name}
           onChange={(e) => setName(e.target.value)}
@@ -47,13 +47,12 @@ const EquipmentForm = ({ onSave, disabled, equipment, onCancel }) => {
       </div>
 
       <div className='control'>
-        <label htmlFor='amount'>Amount:</label>
+        <label htmlFor='quantity'>Amount:</label>
         <input
-          type='number'
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
-          name='amount'
-          id='amount'
+          name='quantity'
+          id='quantity'
         />
       </div>
 

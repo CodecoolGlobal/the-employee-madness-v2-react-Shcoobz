@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import EquipmentForm from '../Components/EquipmentForm';
-import Loading from '../Components/Loading';
+import EquipmentForm from '../../Components/EquipmentForm';
+import Loading from '../../Components/Loading';
 
 const updateEquipment = (equipment) => {
   return fetch(`/api/equipment/${equipment._id}`, {
@@ -27,18 +27,29 @@ const EquipmentUpdater = () => {
 
   useEffect(() => {
     setEquipmentLoading(true);
-    fetchEquipment(id).then((equipment) => {
-      setEquipment(equipment);
-      setEquipmentLoading(false);
-    });
+    fetchEquipment(id)
+      .then((equipmentData) => {
+        setEquipment(equipmentData);
+        setEquipmentLoading(false);
+      })
+      .catch((error) => {
+        console.error('Error fetching equipment:', error);
+        setEquipmentLoading(false);
+      });
   }, [id]);
 
-  const handleUpdateEquipment = (equipment) => {
+  const handleUpdateEquipment = (updatedEquipment) => {
     setUpdateLoading(true);
-    updateEquipment(equipment).then(() => {
-      setUpdateLoading(false);
-      navigate('/');
-    });
+    updateEquipment(updatedEquipment)
+      .then(() => {
+        setUpdateLoading(false);
+        navigate('/equipment-list');
+      })
+      .catch((error) => {
+        console.error('Error updating equipment:', error);
+        setUpdateLoading(false);
+        alert('There was an error updating the equipment. Please try again.');
+      });
   };
 
   if (equipmentLoading) {
@@ -50,7 +61,7 @@ const EquipmentUpdater = () => {
       equipment={equipment}
       onSave={handleUpdateEquipment}
       disabled={updateLoading}
-      onCancel={() => navigate('/')}
+      onCancel={() => navigate('/equipment-list')}
     />
   );
 };

@@ -3,46 +3,39 @@ import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
 
+import Layout from './Pages/Layout';
 import ErrorPage from './Pages/ErrorPage';
 
-import LayoutEmployee from './Pages/Layout/LayoutEmployee';
-import EmployeeList from './Pages/EmployeeList';
-import EmployeeCreator from './Pages/EmployeeCreator';
-import EmployeeUpdater from './Pages/EmployeeUpdater';
+import EmployeeList from './Pages/Employees/EmployeeList';
+import EmployeeCreator from './Pages/Employees/EmployeeCreator';
+import EmployeeUpdater from './Pages/Employees/EmployeeUpdater';
 
-import LayoutEquipment from './Pages/Layout/LayoutEquipment';
-import EquipmentList from './Pages/EquipmentList';
-import EquipmentCreator from './Pages/EquipmentCreator';
-import EquipmentUpdater from './Pages/EquipmentUpdater';
+import EquipmentList from './Pages/Equipment/EquipmentList';
+import EquipmentCreator from './Pages/Equipment/EquipmentCreator';
+import EquipmentUpdater from './Pages/Equipment/EquipmentUpdater';
 
-import TableTest from './Pages/TableTest';
-import FormTest from './Pages/FormTest';
 import './index.css';
+import TableTest from './Pages/Testing/TableTest';
+import FormTest from './Pages/Testing/FormTest';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <LayoutEmployee />,
+    element: <Layout />,
     errorElement: <ErrorPage />,
     children: [
       {
-        path: '',
+        path: '/',
         element: <EmployeeList />,
       },
       {
-        path: '/create-employee',
+        path: '/create',
         element: <EmployeeCreator />,
       },
       {
-        path: '/update-employee/:id',
+        path: '/update/:id',
         element: <EmployeeUpdater />,
       },
-    ],
-  },
-  {
-    path: '/',
-    element: <LayoutEquipment />,
-    children: [
       {
         path: '/equipment-list',
         element: <EquipmentList />,
@@ -55,15 +48,15 @@ const router = createBrowserRouter([
         path: '/update-equipment/:id',
         element: <EquipmentUpdater />,
       },
+      {
+        path: '/table-test',
+        element: <TableTest />,
+      },
+      {
+        path: '/form-test',
+        element: <FormTest />,
+      },
     ],
-  },
-  {
-    path: '/table-test',
-    element: <TableTest />,
-  },
-  {
-    path: '/form-test',
-    element: <FormTest />,
   },
 ]);
 
@@ -74,4 +67,7 @@ root.render(
   </React.StrictMode>
 );
 
-reportWebVitals(); // console.log
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+reportWebVitals();
