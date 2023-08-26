@@ -2,14 +2,12 @@ const express = require('express');
 const router = express.Router();
 const EmployeeModel = require('../db/employee.model');
 
+// get all employees without/with filter
 router.get('/', async (req, res) => {
-  // console.log('Received query parameters:', req.query);
-
-  const { level, position, arrange, pageNumber } = req.query;
+  const { level, position, arrange } = req.query;
   const filterConditions = {};
   const sortEmployee = {};
 
-  // filtering
   if (level) {
     filterConditions.level = { $regex: `${level}`, $options: 'i' };
   }
@@ -34,34 +32,14 @@ router.get('/', async (req, res) => {
     sortEmployee.equipment = 1;
   }
 
-  // var skip = (selectedPage - 1 ) * pageSize;
-  // pagination
-  const entriesPerPage = parseInt(10);
-  const currentPage = parseInt(pageNumber);
-  const offset = (entriesPerPage - 1) * currentPage; // -1 avoids last page empty!
+  const employees = await EmployeeModel.find(filterConditions).sort(
+    sortEmployee
+  );
 
-  const numOfEmployees = await EmployeeModel.countDocuments({});
-  const unroundedPageCount = numOfEmployees / entriesPerPage;
-
-  const totalPages = Math.ceil(parseInt(unroundedPageCount));
-
-  const isPaginationActive = req.query.isPaginationActive === 'true';
-
-  if (!isPaginationActive) {
-    const employees = await EmployeeModel.find(filterConditions).sort(
-      sortEmployee
-    );
-    return res.json({ employees });
-  } else {
-    const employees = await EmployeeModel.find(filterConditions)
-      .limit(entriesPerPage)
-      .skip(offset)
-      .sort(sortEmployee);
-    return res.json({ employees, totalPages });
-  }
+  return res.json(employees); // This will directly send the array
 });
 
-// Fetch all missing employees
+// get all missing employees
 router.get('/missing', async (req, res) => {
   try {
     const missingEmployees = await EmployeeModel.find({ attendance: false });

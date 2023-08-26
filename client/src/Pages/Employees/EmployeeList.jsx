@@ -11,23 +11,11 @@ import EmployeeTable from '../../Components/Employees/EmployeeTable';
 
 import deleteEmployee from '../../Utility/Employees/deleteEmployee';
 
-const fetchFilteredEmployees = (
-  level,
-  position,
-  arrange,
-  pageNumber,
-  isPaginationActive
-) => {
+const fetchFilteredEmployees = (level, position, arrange) => {
   const employeeFilters = new URLSearchParams();
-
   employeeFilters.append('level', level);
   employeeFilters.append('position', position);
   employeeFilters.append('arrange', arrange);
-  // employeeFilters.append('pageNumber', pageNumber);
-  if (isPaginationActive) {
-    employeeFilters.append('pageNumber', pageNumber);
-  }
-  employeeFilters.append('isPaginationActive', isPaginationActive.toString());
 
   return fetch(`/api/employees/?${employeeFilters.toString()}`).then((res) =>
     res.json()
@@ -42,30 +30,16 @@ const EmployeeList = () => {
   const [position, setPosition] = useState('');
   const [arrange, setArrange] = useState('');
 
-  const [pageNumber, setPageNumber] = useState(0);
-  const [itemsPerPage, setItemsPerPage] = useState(0);
-
-  const [isPaginationActive, setIsPaginationActive] = useState(false);
-
   useEffect(() => {
-    fetchFilteredEmployees(
-      level,
-      position,
-      arrange,
-      pageNumber,
-      isPaginationActive
-    ).then((employees) => {
+    fetchFilteredEmployees(level, position, arrange).then((employees) => {
       setLoading(false);
-      setEmployees(employees.employees);
-      setItemsPerPage(employees.totalPages);
+      setEmployees(employees);
     });
-  }, [level, position, arrange, pageNumber, isPaginationActive]);
+  }, [level, position, arrange]);
 
   if (loading) {
     return <Loading />;
   }
-
-  const pages = new Array(itemsPerPage).fill(null).map((v, i) => i);
 
   const handleDelete = (id) => {
     deleteEmployee(id);
@@ -77,13 +51,6 @@ const EmployeeList = () => {
 
   return (
     <>
-      <button
-        onClick={() => {
-          setIsPaginationActive(!isPaginationActive);
-          setPageNumber(1);
-        }}>
-        {isPaginationActive ? 'Pagination Off' : 'Pagination On'}
-      </button>
       <div className='employee-list-filter'>
         <label>
           [ Filter by Level ]
@@ -109,19 +76,6 @@ const EmployeeList = () => {
       </div>
 
       <EmployeeTable employees={employees} onDelete={handleDelete} />
-
-      {itemsPerPage > 1 && (
-        <div className='pagination'>
-          {pages.map((index) => (
-            <button
-              key={index}
-              value={index + 1}
-              onClick={(e) => setPageNumber(e.target.value)}>
-              {index + 1}
-            </button>
-          ))}
-        </div>
-      )}
     </>
   );
 };
