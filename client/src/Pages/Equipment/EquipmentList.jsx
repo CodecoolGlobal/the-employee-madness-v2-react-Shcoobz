@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import Loading from '../../Components/Loading';
-import EquipmentTable from '../../Components/EquipmentTable';
+import EquipmentTable from '../../Components/Equipment/EquipmentTable';
 
 const fetchEquipments = () => {
   return fetch(`/api/equipment`).then((res) => res.json());

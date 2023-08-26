@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import EquipmentForm from '../../Components/EquipmentForm';
+import EquipmentForm from '../../Components/Equipment/EquipmentForm';
 import Loading from '../../Components/Loading';
 
 const updateEquipment = (equipment) => {

@@ -36,6 +36,7 @@ router.get('/', async (req, res) => {
 // http://localhost:8080/api/employees/search/robert
 router.get('/search/:search', async (req, res) => {
   const employeeNameQuery = req.params.search.toString();
+  
   const employees = await EmployeeModel.find({
     name: { $regex: employeeNameQuery, $options: 'i' },
   });

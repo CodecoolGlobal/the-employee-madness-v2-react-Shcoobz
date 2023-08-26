@@ -1,8 +1,13 @@
-// TODO: add hide filter inputs with btn
+// TODO: add hide filters with btn
+// TODO: create equipment delete utility like with employees
+// TODO: make util comp for fetchEmp && fetchFilteredEmp
+// TODO: RESET attendance
 
 import { useEffect, useState } from 'react';
 import Loading from '../../Components/Loading';
 import EmployeeTable from '../../Components/Employees/EmployeeTable';
+
+// import fetchEmployees from '../../Utility/Employees/fetchEmployees';
 import deleteEmployee from '../../Utility/Employees/deleteEmployee';
 
 const fetchEmployees = (level, position, arrange) => {
@@ -16,12 +21,6 @@ const fetchEmployees = (level, position, arrange) => {
     res.json()
   );
 };
-
-// const deleteEmployee = (id) => {
-//   return fetch(`/api/employees/${id}`, { method: 'DELETE' }).then((res) =>
-//     res.json()
-//   );
-// };
 
 const EmployeeList = () => {
   const [loading, setLoading] = useState(true);
@@ -55,15 +54,15 @@ const EmployeeList = () => {
     <>
       <div className='employee-list-filter'>
         <label>
-          Filter by Level
+          [ Filter by Level ]
           <input onChange={(e) => setLevel(e.target.value)} />
         </label>
         <label>
-          Filter by Position
+          [ Filter by Position ]
           <input onChange={(e) => setPosition(e.target.value)} />
         </label>
         <label>
-          Arrange by:
+          [ Arrange by ]
           <select
             name='arrange'
             id='arrange'

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import EquipmentForm from '../../Components/EquipmentForm';
+import EquipmentForm from '../../Components/Equipment/EquipmentForm';
 
 const createEquipment = (equipment) => {
   return fetch('/api/equipment', {

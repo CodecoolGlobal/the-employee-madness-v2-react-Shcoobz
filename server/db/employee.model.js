@@ -1,5 +1,5 @@
 // https://mongoosejs.com/
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
@@ -11,6 +11,10 @@ const EmployeeSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+  attendance: {
+    type: Boolean,
+    default: false,
+  },
 });
 
-module.exports = mongoose.model("Employee", EmployeeSchema);
+module.exports = mongoose.model('Employee', EmployeeSchema);
