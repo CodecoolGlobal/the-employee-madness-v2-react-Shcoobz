@@ -15,6 +15,7 @@ const EmployeeSchema = new Schema({
     type: Boolean,
     default: false,
   },
+  equipment: String,
 });
 
 module.exports = mongoose.model('Employee', EmployeeSchema);

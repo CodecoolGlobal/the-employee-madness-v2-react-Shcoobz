@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import Employee from '../Employee';
 import './EmployeeTable.css';
 
@@ -10,6 +9,7 @@ const EmployeeTable = ({ employees, onDelete }) => (
           <th>Name</th>
           <th>Level</th>
           <th>Position</th>
+          <th>Equipment</th>
           <th>Attendance</th>
           <th>Actions</th>
         </tr>

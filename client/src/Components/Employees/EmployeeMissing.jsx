@@ -2,16 +2,15 @@ import { useEffect, useState } from 'react';
 import Loading from '../../Components/Loading';
 import EmployeeTable from '../../Components/Employees/EmployeeTable';
 
-// import fetchEmployees from '../../Utility/Employees/fetchEmployees';
 import deleteEmployee from '../../Utility/Employees/deleteEmployee';
 
-const fetchEmployees = () => {
-  return fetch(`/api/employees/`).then((res) => res.json());
+const fetchMissingEmployees = () => {
+  return fetch(`/api/employees/missing`).then((res) => res.json());
 };
 
 const EmployeeMissing = () => {
   const [loading, setLoading] = useState(true);
-  const [employees, setEmployees] = useState(null);
+  const [employees, setEmployees] = useState([]);
 
   const handleDelete = (id) => {
     deleteEmployee(id);
@@ -21,13 +20,16 @@ const EmployeeMissing = () => {
   };
 
   useEffect(() => {
-    fetchEmployees().then((res) => {
-      console.log('fetching missing employees:', res);
+    fetchMissingEmployees().then((data) => {
       setLoading(false);
-      const filteredEmployees = res.filter(
+
+      console.log('Missing employees fetched:', data.employees.length);
+
+      const missingEmployees = data.employees.filter(
         (employee) => employee.attendance === false
       );
-      setEmployees(filteredEmployees);
+
+      setEmployees(missingEmployees);
     });
   }, []);
 

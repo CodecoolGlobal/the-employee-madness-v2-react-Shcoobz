@@ -25,6 +25,7 @@ const Employee = ({ employee, onDelete }) => {
       <td>{employee.name}</td>
       <td>{employee.level}</td>
       <td>{employee.position}</td>
+      <td>{employee.equipment}</td>
       <td>
         <input
           type='checkbox'
