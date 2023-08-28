@@ -1,21 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+
 import EquipmentForm from '../../Components/Equipment/EquipmentForm';
 import Loading from '../../Components/Loading';
 
-const updateEquipment = (equipment) => {
-  return fetch(`/api/equipment/${equipment._id}`, {
-    method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(equipment),
-  }).then((res) => res.json());
-};
-
-const fetchEquipment = (id) => {
-  return fetch(`/api/equipment/${id}`).then((res) => res.json());
-};
+import updateEquipment from '../../Utility/Equipment/updateEquipment.js';
+import fetchEquipmentById from '../../Utility/Equipment/fetchEquipmentById';
 
 const EquipmentUpdater = () => {
   const { id } = useParams();
@@ -27,7 +17,7 @@ const EquipmentUpdater = () => {
 
   useEffect(() => {
     setEquipmentLoading(true);
-    fetchEquipment(id)
+    fetchEquipmentById(id)
       .then((equipmentData) => {
         setEquipment(equipmentData);
         setEquipmentLoading(false);

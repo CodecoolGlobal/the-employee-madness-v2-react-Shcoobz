@@ -4,13 +4,13 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
 
 import Layout from './Pages/Layout';
-import ErrorPage from './Pages/ErrorPage';
+import ErrorPage from './Pages/Error/ErrorPage';
 
-import EmployeeList from './Pages/Employees/EmployeeList';
-import EmployeeCreator from './Pages/Employees/EmployeeCreator';
-import EmployeeUpdater from './Pages/Employees/EmployeeUpdater';
-import EmployeeSearch from './Pages/Employees/EmployeeSearch';
-import EmployeeMissing from './Components/Employees/EmployeeMissing';
+import EmployeeList from './Pages/Employee/EmployeeList';
+import EmployeeCreator from './Pages/Employee/EmployeeCreator';
+import EmployeeUpdater from './Pages/Employee/EmployeeUpdater';
+import EmployeeSearch from './Pages/Employee/EmployeeSearch';
+import EmployeeMissing from './Components/Employees/EmployeesMissing/EmployeesMissing';
 
 import EquipmentList from './Pages/Equipment/EquipmentList';
 import EquipmentCreator from './Pages/Equipment/EquipmentCreator';

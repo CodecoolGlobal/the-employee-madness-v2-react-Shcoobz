@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
-import Loading from '../../Components/Loading';
-import EmployeeTable from '../../Components/Employees/EmployeeTable';
 
-import deleteEmployee from '../../Utility/Employees/deleteEmployee';
+import Loading from '../../Loading';
+import EmployeeTable from '../EmployeeTable';
 
-const fetchMissingEmployees = () => {
-  return fetch(`/api/employees/missing`).then((res) => res.json());
-};
+import deleteEmployee from '../../../Utility/Employees/deleteEmployee';
+import fetchEmployeesByMissing from '../../../Utility/Employees/fetchEmployeesByMissing';
+
+import './EmployeesMissing.css';
 
 const EmployeeMissing = () => {
   const [loading, setLoading] = useState(true);
@@ -14,13 +14,14 @@ const EmployeeMissing = () => {
 
   const handleDelete = (id) => {
     deleteEmployee(id);
+
     setEmployees((employees) => {
       return employees.filter((employee) => employee._id !== id);
     });
   };
 
   useEffect(() => {
-    fetchMissingEmployees().then((data) => {
+    fetchEmployeesByMissing().then((data) => {
       setLoading(false);
 
       const missingEmployees = data.employees.filter(

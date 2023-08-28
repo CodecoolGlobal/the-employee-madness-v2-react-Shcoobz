@@ -23,15 +23,14 @@ const Employee = ({ employee, onDelete }) => {
   return (
     <tr>
       <td>{employee.name}</td>
+      <td>{employee.firstName}</td>
+      <td>{employee.middleName}</td>
+      <td>{employee.lastName}</td>
       <td>{employee.level}</td>
       <td>{employee.position}</td>
       <td>{employee.equipment}</td>
       <td>
-        <input
-          type='checkbox'
-          checked={attendance}
-          onChange={handleAttendance}
-        />
+        <input type='checkbox' checked={attendance} onChange={handleAttendance} />
       </td>
       <td>{employee.favoriteBrand.name}</td>
 

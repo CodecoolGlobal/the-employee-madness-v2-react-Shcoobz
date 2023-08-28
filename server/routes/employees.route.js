@@ -2,9 +2,9 @@ const express = require('express');
 const router = express.Router();
 const EmployeeModel = require('../db/employee.model');
 
-// get all employees without/with filter
+// GET all employees w/wo filter
 router.get('/', async (req, res) => {
-  const { level, position, arrange } = req.query;
+  const { level, position, arrange, sortByName } = req.query;
   const filterConditions = {};
   const sortEmployee = {};
 
@@ -20,6 +20,18 @@ router.get('/', async (req, res) => {
     sortEmployee.name = 1;
   }
 
+  if (arrange === 'firstName') {
+    sortEmployee.firstName = 1;
+  }
+
+  if (arrange === 'middleName') {
+    sortEmployee.middleName = 1;
+  }
+
+  if (arrange === 'lastName') {
+    sortEmployee.lastName = 1;
+  }
+
   if (arrange === 'level') {
     sortEmployee.level = 1;
   }
@@ -32,6 +44,18 @@ router.get('/', async (req, res) => {
     sortEmployee.equipment = 1;
   }
 
+  if (arrange === 'favoriteBrand') {
+    sortEmployee.favoriteBrand = 1;
+  }
+
+  if (sortByName === 'asc') {
+    sortEmployee.name = 1;
+  }
+
+  if (sortByName === 'des') {
+    sortEmployee.name = -1;
+  }
+
   const employees = await EmployeeModel.find(filterConditions)
     .populate('favoriteBrand')
     .sort(sortEmployee);
@@ -39,7 +63,7 @@ router.get('/', async (req, res) => {
   return res.json(employees);
 });
 
-// get all missing employees
+// GET all missing employees
 router.get('/missing', async (req, res) => {
   const missingEmployees = await EmployeeModel.find({
     attendance: false,
@@ -48,7 +72,7 @@ router.get('/missing', async (req, res) => {
   return res.json({ employees: missingEmployees });
 });
 
-// get all employees by search
+// GET all employees by name search
 // http://localhost:8080/api/employees/search/robert
 router.get('/search/:search', async (req, res) => {
   const employeeNameQuery = req.params.search.toString();
@@ -60,15 +84,14 @@ router.get('/search/:search', async (req, res) => {
   return res.json(employees);
 });
 
-// get employee by id
+// GET employee by ID
 router.get('/:id', async (req, res) => {
-  const employee = await EmployeeModel.findById(req.params.id).populate(
-    'favoriteBrand'
-  );
+  const employee = await EmployeeModel.findById(req.params.id).populate('favoriteBrand');
 
   return res.json(employee);
 });
 
+// POST employee (create)
 router.post('/', async (req, res, next) => {
   const employee = req.body;
   try {
@@ -79,6 +102,7 @@ router.post('/', async (req, res, next) => {
   }
 });
 
+// PATCH employee by ID (change)
 router.patch('/:id', async (req, res, next) => {
   try {
     const employee = await EmployeeModel.findOneAndUpdate(
@@ -92,6 +116,7 @@ router.patch('/:id', async (req, res, next) => {
   }
 });
 
+// DELETE employee by ID
 router.delete('/:id', async (req, res, next) => {
   try {
     const employee = await EmployeeModel.findById(req.params.id);

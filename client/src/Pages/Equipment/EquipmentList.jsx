@@ -1,16 +1,10 @@
 import { useEffect, useState } from 'react';
+
 import Loading from '../../Components/Loading';
 import EquipmentTable from '../../Components/Equipment/EquipmentTable';
 
-const fetchEquipments = () => {
-  return fetch(`/api/equipment`).then((res) => res.json());
-};
-
-const deleteEquipment = (id) => {
-  return fetch(`/api/equipment/${id}`, { method: 'DELETE' }).then((res) =>
-    res.json()
-  );
-};
+import deleteEquipment from '../../Utility/Equipment/deleteEquipment';
+import fetchEquipments from '../../Utility/Equipment/fetchEquipments';
 
 const EquipmentList = () => {
   const [loading, setLoading] = useState(true);

@@ -1,12 +1,17 @@
-import Employee from '../Employee';
+import Employee from '../Employee/Employee';
 import './EmployeeTable.css';
 
-const EmployeeTable = ({ employees, onDelete }) => (
+const EmployeeTable = ({ employees, onDelete, handleSortByName }) => (
   <div className='EmployeeTable'>
     <table>
       <thead>
         <tr>
-          <th>Name</th>
+          <th onClick={() => handleSortByName()} className='nameTitle'>
+            Name
+          </th>
+          <th>First Name</th>
+          <th>Middle Name</th>
+          <th>Last Name</th>
           <th>Level</th>
           <th>Position</th>
           <th>Equipment</th>
@@ -17,11 +22,7 @@ const EmployeeTable = ({ employees, onDelete }) => (
       </thead>
       <tbody>
         {employees.map((employee) => (
-          <Employee
-            key={employee._id}
-            employee={employee}
-            onDelete={onDelete}
-          />
+          <Employee key={employee._id} employee={employee} onDelete={onDelete} />
         ))}
       </tbody>
     </table>

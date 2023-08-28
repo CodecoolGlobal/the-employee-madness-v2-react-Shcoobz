@@ -3,6 +3,7 @@ Loading the .env file and creates environment variables from it
 */
 require('dotenv').config();
 const mongoose = require('mongoose');
+
 const names = require('./names.json');
 const levels = require('./levels.json');
 const positions = require('./positions.json');
@@ -13,14 +14,14 @@ const FavoriteBrandModel = require('../db/favoriteBrand.model');
 
 const mongoUrl = process.env.MONGO_URL;
 
+const pick = (from) => from[Math.floor(Math.random() * (from.length - 0))];
+
+let createdBrands;
+
 if (!mongoUrl) {
   console.error('Missing MONGO_URL environment variable');
   process.exit(1); // exit the current program
 }
-
-const pick = (from) => from[Math.floor(Math.random() * (from.length - 0))];
-
-let createdBrands;
 
 const populateFavoriteBrand = async () => {
   await FavoriteBrandModel.deleteMany({});
@@ -36,6 +37,9 @@ const populateEmployees = async () => {
 
   const employees = names.map((name) => ({
     name,
+    firstName: name.split(' ')[0], // always first element
+    middleName: name.split(' ').length > 2 ? name.split(' ')[1] : null, // only, if more than 2 names
+    lastName: name.split(' ').pop(), // always last element
     level: pick(levels),
     position: pick(positions),
     favoriteBrand: pick(createdBrands)._id,

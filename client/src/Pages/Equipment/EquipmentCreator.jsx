@@ -1,16 +1,9 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
 import EquipmentForm from '../../Components/Equipment/EquipmentForm';
 
-const createEquipment = (equipment) => {
-  return fetch('/api/equipment', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(equipment),
-  }).then((res) => res.json());
-};
+import createEquipment from '../../Utility/Equipment/createEquipment';
 
 const EquipmentCreator = () => {
   const navigate = useNavigate();

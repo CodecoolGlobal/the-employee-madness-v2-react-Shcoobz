@@ -8,13 +8,9 @@ const EmployeeForm = ({ onSave, disabled, employee, onCancel }) => {
   const [level, setLevel] = useState(employee?.level ?? '');
   const [position, setPosition] = useState(employee?.position ?? '');
   const [availableEquipment, setAvailableEquipment] = useState([]);
-  const [selectedEquipment, setSelectedEquipment] = useState(
-    employee?.equipment ?? ''
-  );
+  const [selectedEquipment, setSelectedEquipment] = useState(employee?.equipment ?? '');
   const [favoriteBrands, setFavoriteBrands] = useState([]);
-  const [selectedBrand, setSelectedBrand] = useState(
-    employee?.favoriteBrand?._id ?? ''
-  );
+  const [selectedBrand, setSelectedBrand] = useState(employee?.favoriteBrand?._id ?? '');
 
   useEffect(() => {
     const loadAvailableEquipment = async () => {
@@ -63,6 +59,36 @@ const EmployeeForm = ({ onSave, disabled, employee, onCancel }) => {
           onChange={(e) => setName(e.target.value)}
           name='name'
           id='name'
+        />
+      </div>
+
+      <div className='control'>
+        <label htmlFor='firstName'>First Name:</label>
+        <input
+          value={employee ? employee.firstName : ''}
+          onChange={(e) => setName(e.target.value)}
+          name='firstName'
+          id='firstName'
+        />
+      </div>
+
+      <div className='control'>
+        <label htmlFor='middleName'>Middle Name:</label>
+        <input
+          value={employee ? employee.middleName : ''}
+          onChange={(e) => setName(e.target.value)}
+          name='middleName'
+          id='middleName'
+        />
+      </div>
+
+      <div className='control'>
+        <label htmlFor='lastName'>Last Name:</label>
+        <input
+          value={employee ? employee.lastName : ''}
+          onChange={(e) => setName(e.target.value)}
+          name='lastName'
+          id='lastName'
         />
       </div>
 
