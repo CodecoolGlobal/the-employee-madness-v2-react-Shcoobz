@@ -1,28 +1,12 @@
-import { useEffect } from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import EmployeeForm from '../../Components/Employees/EmployeeForm';
+
 import Loading from '../../Components/Loading';
+import EmployeeForm from '../../Components/Employees/EmployeeForm';
 
-const updateEmployee = (employee) => {
-  return fetch(`/api/employees/${employee._id}`, {
-    method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(employee),
-  }).then((res) => res.json());
-};
-
-const fetchEmployee = (id) => {
-  return fetch(`/api/employees/${id}`).then((res) => res.json());
-};
-
-const fetchEquipment = (dataSetter) => {
-  return fetch(`/api/equipment`)
-    .then((res) => res.json())
-    .then((data) => dataSetter(data));
-};
+import updateEmployee from '../../Utility/Employees/updateEmployee';
+import fetchEmployee from '../../Utility/Employees/fetchEmployee';
+import fetchAvailableEquipment from '../../Utility/Equipment/fetchAvailableEquipment';
 
 const EmployeeUpdater = () => {
   const { id } = useParams();
@@ -31,20 +15,18 @@ const EmployeeUpdater = () => {
   const [employee, setEmployee] = useState(null);
   const [updateLoading, setUpdateLoading] = useState(false);
   const [employeeLoading, setEmployeeLoading] = useState(true);
-
   const [equipment, setEquipment] = useState(null);
 
   useEffect(() => {
     setEmployeeLoading(true);
+
     fetchEmployee(id).then((employee) => {
       setEmployee(employee);
       setEmployeeLoading(false);
     });
-  }, [id]);
 
-  useEffect(() => {
-    fetchEquipment(setEquipment);
-  }, []);
+    fetchAvailableEquipment(setEquipment);
+  }, [id]);
 
   const handleUpdateEmployee = (employee) => {
     setUpdateLoading(true);

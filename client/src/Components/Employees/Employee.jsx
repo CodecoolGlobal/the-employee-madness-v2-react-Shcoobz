@@ -33,6 +33,8 @@ const Employee = ({ employee, onDelete }) => {
           onChange={handleAttendance}
         />
       </td>
+      <td>{employee.favoriteBrand.name}</td>
+
       <td>
         <Link to={`/update/${employee._id}`}>
           <button type='button'>Update</button>

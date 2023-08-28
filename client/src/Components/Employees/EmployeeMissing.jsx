@@ -23,8 +23,6 @@ const EmployeeMissing = () => {
     fetchMissingEmployees().then((data) => {
       setLoading(false);
 
-      console.log('Missing employees fetched:', data.employees.length);
-
       const missingEmployees = data.employees.filter(
         (employee) => employee.attendance === false
       );
@@ -39,7 +37,7 @@ const EmployeeMissing = () => {
 
   return (
     <div>
-      <h2>Missing Employees</h2>
+      <h2>Missing Employees: {employees.length}</h2>
       <EmployeeTable employees={employees} onDelete={handleDelete} />
     </div>
   );

@@ -3,8 +3,10 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 
+// importing routes
 const employeeRoutes = require('./routes/employees.route');
 const equipmentRoutes = require('./routes/equipment.route');
+const favoriteBrandRoutes = require('./routes/favoriteBrand.route');
 
 const { MONGO_URL, PORT = 8080 } = process.env;
 
@@ -15,8 +17,10 @@ if (!MONGO_URL) {
 
 app.use(express.json());
 
+// integration of routes
 app.use('/api/employees', employeeRoutes);
 app.use('/api/equipment', equipmentRoutes);
+app.use('/api/favoriteBrands', favoriteBrandRoutes);
 
 const main = async () => {
   await mongoose.connect(MONGO_URL);

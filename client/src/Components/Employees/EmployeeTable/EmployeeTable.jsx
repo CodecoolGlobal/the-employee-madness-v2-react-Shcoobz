@@ -11,6 +11,7 @@ const EmployeeTable = ({ employees, onDelete }) => (
           <th>Position</th>
           <th>Equipment</th>
           <th>Attendance</th>
+          <th>Favorite Brand</th>
           <th>Actions</th>
         </tr>
       </thead>

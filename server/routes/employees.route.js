@@ -32,38 +32,40 @@ router.get('/', async (req, res) => {
     sortEmployee.equipment = 1;
   }
 
-  const employees = await EmployeeModel.find(filterConditions).sort(
-    sortEmployee
-  );
+  const employees = await EmployeeModel.find(filterConditions)
+    .populate('favoriteBrand')
+    .sort(sortEmployee);
 
-  return res.json(employees); // This will directly send the array
+  return res.json(employees);
 });
 
 // get all missing employees
 router.get('/missing', async (req, res) => {
-  try {
-    const missingEmployees = await EmployeeModel.find({ attendance: false });
-    return res.json({ employees: missingEmployees });
-  } catch (err) {
-    return res
-      .status(500)
-      .json({ error: 'Failed to fetch missing employees.' });
-  }
+  const missingEmployees = await EmployeeModel.find({
+    attendance: false,
+  }).populate('favoriteBrand');
+
+  return res.json({ employees: missingEmployees });
 });
 
+// get all employees by search
 // http://localhost:8080/api/employees/search/robert
 router.get('/search/:search', async (req, res) => {
   const employeeNameQuery = req.params.search.toString();
 
   const employees = await EmployeeModel.find({
     name: { $regex: employeeNameQuery, $options: 'i' },
-  });
+  }).populate('favoriteBrand');
 
   return res.json(employees);
 });
 
+// get employee by id
 router.get('/:id', async (req, res) => {
-  const employee = await EmployeeModel.findById(req.params.id);
+  const employee = await EmployeeModel.findById(req.params.id).populate(
+    'favoriteBrand'
+  );
+
   return res.json(employee);
 });
 

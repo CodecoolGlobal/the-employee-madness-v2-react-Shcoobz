@@ -1,18 +1,35 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-const EmployeeForm = ({
-  onSave,
-  disabled,
-  employee,
-  onCancel,
-  availableEquipment,
-}) => {
+import fetchAvailableEquipment from '../../../Utility/Equipment/fetchAvailableEquipment';
+import fetchFavoriteBrands from '../../../Utility/Equipment/fetchFavoriteBrands';
+
+const EmployeeForm = ({ onSave, disabled, employee, onCancel }) => {
   const [name, setName] = useState(employee?.name ?? '');
   const [level, setLevel] = useState(employee?.level ?? '');
   const [position, setPosition] = useState(employee?.position ?? '');
+  const [availableEquipment, setAvailableEquipment] = useState([]);
   const [selectedEquipment, setSelectedEquipment] = useState(
     employee?.equipment ?? ''
   );
+  const [favoriteBrands, setFavoriteBrands] = useState([]);
+  const [selectedBrand, setSelectedBrand] = useState(
+    employee?.favoriteBrand?._id ?? ''
+  );
+
+  useEffect(() => {
+    const loadAvailableEquipment = async () => {
+      const fetchedEquipment = await fetchAvailableEquipment();
+      setAvailableEquipment(fetchedEquipment);
+    };
+
+    const loadFavoriteBrands = async () => {
+      const fetchedBrands = await fetchFavoriteBrands();
+      setFavoriteBrands(fetchedBrands);
+    };
+
+    loadAvailableEquipment();
+    loadFavoriteBrands();
+  }, []);
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -24,6 +41,7 @@ const EmployeeForm = ({
         level,
         position,
         equipment: selectedEquipment,
+        favoriteBrand: selectedBrand,
       });
     }
 
@@ -32,6 +50,7 @@ const EmployeeForm = ({
       level,
       position,
       equipment: selectedEquipment,
+      favoriteBrand: selectedBrand,
     });
   };
 
@@ -80,7 +99,22 @@ const EmployeeForm = ({
               {item.name}
             </option>
           ))}
-          <option></option>
+        </select>
+      </div>
+
+      <div className='control'>
+        <label htmlFor='favoriteBrand'>Favorite Brand:</label>
+        <select
+          name='favoriteBrand'
+          id='favoriteBrand'
+          value={selectedBrand}
+          onChange={(e) => setSelectedBrand(e.target.value)}>
+          <option value=''>Select a Brand:</option>
+          {favoriteBrands?.map((brand) => (
+            <option key={brand._id} value={brand._id}>
+              {brand.name}
+            </option>
+          ))}
         </select>
       </div>
 
