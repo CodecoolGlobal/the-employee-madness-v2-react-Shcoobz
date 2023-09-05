@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import EmployeeTable from '../../Components/Employees/EmployeeTable';
 
 import deleteEmployee from '../../Utility/Employees/deleteEmployee';
-import fetchEmployeesBySearch from '../../Utility/Employees/fetchEmployeesBySearch';
+import fetchByNameSearch from '../../Utility/Employees/fetchByNameSearch';
 
 const EmployeeSearch = () => {
   const [employees, setEmployees] = useState(null);
@@ -13,7 +13,7 @@ const EmployeeSearch = () => {
   const searchedName = pathParts[pathParts.length - 1];
 
   useEffect(() => {
-    fetchEmployeesBySearch(searchedName, setEmployees);
+    fetchByNameSearch(searchedName, setEmployees);
   }, [searchedName]);
 
   return (

@@ -5,7 +5,7 @@ import Loading from '../../Components/Loading';
 import EmployeeForm from '../../Components/Employees/EmployeeForm';
 
 import updateEmployee from '../../Utility/Employees/updateEmployee';
-import fetchEmployeeById from '../../Utility/Employees/fetchEmployeeById';
+import fetchById from '../../Utility/Employees/fetchById';
 import fetchAvailableEquipment from '../../Utility/Equipment/fetchAvailableEquipment';
 
 const EmployeeUpdater = () => {
@@ -20,7 +20,7 @@ const EmployeeUpdater = () => {
   useEffect(() => {
     setEmployeeLoading(true);
 
-    fetchEmployeeById(id).then((employee) => {
+    fetchById(id).then((employee) => {
       setEmployee(employee);
       setEmployeeLoading(false);
     });

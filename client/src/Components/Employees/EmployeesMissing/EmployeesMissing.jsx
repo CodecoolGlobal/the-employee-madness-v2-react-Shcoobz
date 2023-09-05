@@ -4,7 +4,7 @@ import Loading from '../../Loading';
 import EmployeeTable from '../EmployeeTable';
 
 import deleteEmployee from '../../../Utility/Employees/deleteEmployee';
-import fetchEmployeesByMissing from '../../../Utility/Employees/fetchEmployeesByMissing';
+import fetchByMissing from '../../../Utility/Employees/fetchByMissing';
 
 import './EmployeesMissing.css';
 
@@ -21,7 +21,7 @@ const EmployeeMissing = () => {
   };
 
   useEffect(() => {
-    fetchEmployeesByMissing().then((data) => {
+    fetchByMissing().then((data) => {
       setLoading(false);
 
       const missingEmployees = data.employees.filter(

@@ -28,11 +28,11 @@ const Employee = ({ employee, onDelete }) => {
       <td>{employee.lastName}</td>
       <td>{employee.level}</td>
       <td>{employee.position}</td>
-      <td>{employee.equipment}</td>
+      <td>{employee.equipment?.name}</td>
       <td>
         <input type='checkbox' checked={attendance} onChange={handleAttendance} />
       </td>
-      <td>{employee.favoriteBrand.name}</td>
+      <td>{employee.favoriteBrand?.name}</td>
 
       <td>
         <Link to={`/update/${employee._id}`}>

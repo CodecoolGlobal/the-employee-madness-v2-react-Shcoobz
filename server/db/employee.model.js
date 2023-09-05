@@ -18,7 +18,10 @@ const EmployeeSchema = new Schema({
     type: Boolean,
     default: false,
   },
-  equipment: String,
+  equipment: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Equipment',
+  },
   favoriteBrand: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'FavoriteBrand',

@@ -3,10 +3,15 @@ const router = express.Router();
 const EmployeeModel = require('../db/employee.model');
 
 // GET all employees w/wo filter
+
 router.get('/', async (req, res) => {
-  const { level, position, arrange, sortByName } = req.query;
-  const filterConditions = {};
-  const sortEmployee = {};
+  const employees = await EmployeeModel.find({}).populate('favoriteBrand');
+  return res.json(employees);
+});
+
+router.get('/filter', async (req, res) => {
+  const { level, position } = req.query;
+  let filterConditions = {};
 
   if (level) {
     filterConditions.level = { $regex: `${level}`, $options: 'i' };
@@ -16,50 +21,29 @@ router.get('/', async (req, res) => {
     filterConditions.position = { $regex: `${position}`, $options: 'i' };
   }
 
-  if (arrange === 'name') {
-    sortEmployee.name = 1;
+  const employees = await EmployeeModel.find(filterConditions).populate('favoriteBrand');
+  return res.json(employees);
+});
+
+router.get('/sort', async (req, res) => {
+  const { arrange, sortByName } = req.query;
+  let sortCriteria = {};
+
+  if (arrange) {
+    sortCriteria[arrange] = 1;
   }
 
-  if (arrange === 'firstName') {
-    sortEmployee.firstName = 1;
+  if (sortByName) {
+    if (sortByName === 'asc') {
+      sortCriteria.name = 1;
+    } else if (sortByName === 'des') {
+      sortCriteria.name = -1;
+    }
   }
 
-  if (arrange === 'middleName') {
-    sortEmployee.middleName = 1;
-  }
-
-  if (arrange === 'lastName') {
-    sortEmployee.lastName = 1;
-  }
-
-  if (arrange === 'level') {
-    sortEmployee.level = 1;
-  }
-
-  if (arrange === 'position') {
-    sortEmployee.position = 1;
-  }
-
-  if (arrange === 'equipment') {
-    sortEmployee.equipment = 1;
-  }
-
-  if (arrange === 'favoriteBrand') {
-    sortEmployee.favoriteBrand = 1;
-  }
-
-  if (sortByName === 'asc') {
-    sortEmployee.name = 1;
-  }
-
-  if (sortByName === 'des') {
-    sortEmployee.name = -1;
-  }
-
-  const employees = await EmployeeModel.find(filterConditions)
+  const employees = await EmployeeModel.find({})
     .populate('favoriteBrand')
-    .sort(sortEmployee);
-
+    .sort(sortCriteria);
   return res.json(employees);
 });
 

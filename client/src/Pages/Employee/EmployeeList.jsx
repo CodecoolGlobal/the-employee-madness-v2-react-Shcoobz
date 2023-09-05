@@ -7,25 +7,75 @@ import { useEffect, useState } from 'react';
 
 import Loading from '../../Components/Loading';
 import EmployeeTable from '../../Components/Employees/EmployeeTable';
-
-import fetchFilteredEmployees from '../../Utility/Employees/fetchEmployeesByFilter';
 import deleteEmployee from '../../Utility/Employees/deleteEmployee';
+import fetchAll from '../../Utility/Employees/fetchAll';
+import fetchByFilter from '../../Utility/Employees/fetchByFilters';
+import sortByCriteria from '../../Utility/Employees/sortByCriteria';
 
 const EmployeeList = () => {
   const [loading, setLoading] = useState(true);
   const [employees, setEmployees] = useState([]);
-
   const [level, setLevel] = useState('');
   const [position, setPosition] = useState('');
   const [arrange, setArrange] = useState('');
   const [sortByName, setSortByName] = useState(null);
 
   useEffect(() => {
-    fetchFilteredEmployees(level, position, arrange, sortByName).then((employees) => {
+    const fetchAllEmployees = async () => {
+      const allEmployees = await fetchAll();
+      setEmployees(allEmployees);
       setLoading(false);
-      setEmployees(employees);
-    });
-  }, [level, position, arrange, sortByName]);
+    };
+
+    fetchAllEmployees();
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const fetchedEmployees = await fetchByFilter({ level, position });
+      setEmployees(fetchedEmployees);
+      setLoading(false);
+    };
+
+    fetchData();
+  }, [level, position]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const fetchedEmployees = await sortByCriteria({ arrange, sortByName });
+      setEmployees(fetchedEmployees);
+      setLoading(false);
+    };
+
+    fetchData();
+  }, [arrange, sortByName]);
+
+  // useEffect(() => {
+  //   const fetchEmployees = async () => {
+  //     let fetchedEmployees;
+
+  //     if (level) {
+  //       fetchedEmployees = await fetchByLevel(level);
+  //     } else if (position) {
+  //       fetchedEmployees = await fetchByPosition(position);
+  //     } else if (arrange) {
+  //       fetchedEmployees = await sortByArrange(arrange);
+  //     } else if (sortByName) {
+  //       fetchedEmployees = await sortByNameFunction(sortByName);
+  //     } else {
+  //       fetchedEmployees = await fetchAll();
+  //     }
+
+  //     setEmployees(fetchedEmployees);
+  //     setLoading(false);
+  //   };
+
+  //   fetchEmployees();
+  // }, [level, position, arrange, sortByName]);
+
+  if (loading) {
+    return <Loading />;
+  }
 
   const handleSortByName = () => {
     if (sortByName === null) {
@@ -36,10 +86,6 @@ const EmployeeList = () => {
       setSortByName('asc');
     }
   };
-
-  if (loading) {
-    return <Loading />;
-  }
 
   const handleDelete = (id) => {
     deleteEmployee(id);

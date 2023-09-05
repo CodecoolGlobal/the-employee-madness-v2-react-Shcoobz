@@ -1,5 +1,5 @@
-const fetchEmployeeById = (id) => {
+const fetchById = (id) => {
   return fetch(`/api/employees/${id}`).then((res) => res.json());
 };
 
-export default fetchEmployeeById;
+export default fetchById;

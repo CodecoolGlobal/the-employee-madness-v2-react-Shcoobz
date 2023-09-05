@@ -1,7 +1,7 @@
-const fetchEmployeesBySearch = (name, handleFetchedData) => {
+const fetchByNameSearch = (name, handleFetchedData) => {
   return fetch(`/api/employees/search/${name}`)
     .then((res) => res.json())
     .then((data) => handleFetchedData(data));
 };
 
-export default fetchEmployeesBySearch;
+export default fetchByNameSearch;
